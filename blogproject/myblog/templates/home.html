@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="css/first.css">-->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+
+    .head_text {
+        color: white;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+    .avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+</style>
+</head>
+
+<body class="bodyimage">
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-white"> Welcome to Our Blog </h3>
+                    <p class="text-light"> Share you thoughts here..! &nbsp
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for post in query %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title" style="color: darkblue;">{{ post.title }}</h2>
+                    <p class="card-text text-muted h6">{{ post.user }} | {{ post.created_on}} </p>
+                    <p class="card-text" style="color: blue;">{{post.post|slice:":200" }}</p>
+                    <a href="{% url 'post_detail' post.id  %}" class="btn btn-primary">Read More &rarr;</a>
+                    <p>Likes :{{post.likes.count }}</p>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+                {% block sidebar %}
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+        <h5 class="card-header"><i class='far fa-id-card' style='font-size:48px;color:red'></i>
+
+</h5>
+    <div class="card-body">
+         {% if request.user.is_authenticated %}
+            <div class="col-md-12">
+                {% if image %}
+            <img src="{{ user_data.user_image.url }}" alt="" width="100%">
+                <p align="center">Yourself : {{user}}</p>
+                {% else %}
+                <i class='far fa-id-card' style='font-size:48px;color:red'></i>
+
+                {% endif %}
+    </div>
+        {% else %}
+            <i class='far fa-id-card' style='font-size:48px;color:red'></i>
+
+
+        <p class="card-text"> Hi , New here ?</p>
+        it's a pleasure for us to meet new people ,please enroll here to know more ...<a href="login"
+           class="btn btn-danger">Login !</a>
+{% endif %}
+    </div>
+
+</div>
+</div>
+    </p>{% endblock sidebar %}
+
+    </div>
+</div>
+<div class="row">
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+</body>
+</html>

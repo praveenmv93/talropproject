@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+{% block content %}
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.fa {
+  font-size: 50px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.fa:hover {
+  color: darkblue;
+}
+</style>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+    <button class="btn btn-primary" onclick="goBack()">Go Back</button>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-8 card mb-4  mt-3 left  top">
+
+            <div class="card-body">
+                <h1>{% block title %} {{ query.title }} {% endblock title %}</h1>
+                <p class=" text-muted">{{ query.author }} | {{ query.created_on }}</p>
+                <p class="card-text ">{{ query.post | safe }}</p>
+                <br>
+                <form action="{% url 'like_view' query.id %}" method = "POST">
+                    {% csrf_token %}
+                    {% if user.is_authenticated %}
+                        {% if d %}
+                                    <button class="btn btn--danger btn-sm" type ="submit", name = "post_id", value = "{{ query.id }}"><i class="fa fa-thumbs-down" style="font-size:48px;color:red"></i>
+</button>
+
+                        {% else %}
+                                    <button class="btn btn--primary btn-sm" type ="submit", name = "post_id", value = "{{ query.id }}"><i class="fa fa-thumbs-up" style="font-size:48px;color: blue;"></i>
+</button>
+
+                        {% endif %}
+                    {% else %}
+                    <small>
+                        <a href="{% url 'login' %}">
+                        Login </a>to Like</small>
+
+                    {% endif %}
+
+                </form>
+                    <p>Likes :{{query.likes.count }}</p>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -29,3 +29,4 @@ class NewUserForm(UserCreationForm):
 class PostsForm(forms.Form):
     post = forms.CharField(max_length=255, widget=forms.Textarea)
     title = forms.CharField(max_length=10)
+    topings = forms.MultipleChoiceField(choices = [('1','1'),('2','2')],widget =forms.CheckboxSelectMultiple)

@@ -1,0 +1,36 @@
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdeliver.net/npm/vue"></script>
+    <!--<script src="https://unpkg.com/vue"></script>-->
+    <title>Test vue</title>
+</head>
+
+$END$
+<div id="app">
+    <div v-on:click="vote()">[[ message ]]</div>
+</div>
+
+{{username|json_script:"username"}}
+<script>
+
+    var username = JSON.parse(document.getElementById('usernaem').textContent);
+
+    var app = new Vue({
+        delimiters: ["[[", "]]"],
+        el: '#app',
+        data: {
+            message: "Hello" + username
+        },
+
+        methods : {
+            vote: function() {
+                alert('the voting function invoked');
+
+            }
+        }
+
+    })
+
+
+</script>
